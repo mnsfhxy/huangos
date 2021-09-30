@@ -14,47 +14,39 @@
 #define COL8_840084		13
 #define COL8_008484		14
 #define COL8_848484		15
+/*
+; BOOT_INFO相关
+CYLS	EQU		0x0ff0			; 引导扇区设置
+LEDS	EQU		0x0ff1
+VMODE	EQU		0x0ff2			; 关于颜色的信息
+SCRNX	EQU		0x0ff4			; 分辨率X
+SCRNY	EQU		0x0ff6			; 分辨率Y
+VRAM	EQU		0x0ff8			; 图像缓冲区的起始地址
+*/
+typedef struct BOOTINFO{
+	char cyls,leds,vmode,reserve;
+	short screen_x,screen_y;
+	char *vram;
+}BOOTINFO;
 void io_hlt(void);//hlt----halt 停止
 void io_cli(void); //cli-----clear interrupt flag  中断标志置0
 void io_out8(int port, int data);
 void init_palette(void);
+void init_screen(char *vram,short xsize,short ysize);
 void set_palette(int start,int end,unsigned char *rgb);
 int io_load_eflags(void);//eflags ---- extend flags 保存中断标志
 void io_store_eflags(int eflags);//加载中断标志
+
 /*显存填充像素点*/
 void boxfill8(unsigned char *vram, int xsize,unsigned char c,int x0,int y0,int x1,int y1);
 
 
 
-/* 是函数声明却不用{}，而用;，这表示的意思是：
-	函数在别的文件中，你自己找一下 */
-
-void HariMain(void)
-{
-
-	char *vram;
-	int xsize,ysize;
-	vram=(char *)0xa0000;
-	xsize=320;
-	ysize=200;
-	init_palette();
-	boxfill8(vram, xsize, COL8_008484,  0,         0,          xsize -  1, ysize - 29);
-	boxfill8(vram, xsize, COL8_C6C6C6,  0,         ysize - 28, xsize -  1, ysize - 28);
-	boxfill8(vram, xsize, COL8_FFFFFF,  0,         ysize - 27, xsize -  1, ysize - 27);
-	boxfill8(vram, xsize, COL8_C6C6C6,  0,         ysize - 26, xsize -  1, ysize -  1);
-
-	boxfill8(vram, xsize, COL8_FFFFFF,  3,         ysize - 24, 59,         ysize - 24);
-	boxfill8(vram, xsize, COL8_FFFFFF,  2,         ysize - 24,  2,         ysize -  4);
-	boxfill8(vram, xsize, COL8_848484,  3,         ysize -  4, 59,         ysize -  4);
-	boxfill8(vram, xsize, COL8_848484, 59,         ysize - 23, 59,         ysize -  5);
-	boxfill8(vram, xsize, COL8_000000,  2,         ysize -  3, 59,         ysize -  3);
-	boxfill8(vram, xsize, COL8_000000, 60,         ysize - 24, 60,         ysize -  3);
-
-	boxfill8(vram, xsize, COL8_848484, xsize - 47, ysize - 24, xsize -  4, ysize - 24);
-	boxfill8(vram, xsize, COL8_848484, xsize - 47, ysize - 23, xsize - 47, ysize -  4);
-	boxfill8(vram, xsize, COL8_FFFFFF, xsize - 47, ysize -  3, xsize -  4, ysize -  3);
-	boxfill8(vram, xsize, COL8_FFFFFF, xsize -  3, ysize - 24, xsize -  3, ysize -  3);
-	for(;;)io_hlt();
+void HariMain(void){
+		BOOTINFO *bootinfo=(BOOTINFO *)0x0ff0;
+		init_palette();
+		init_screen(bootinfo->vram,bootinfo->screen_x,bootinfo->screen_y);
+		for(;;)io_hlt();
 }
 void init_palette(void){
 	
@@ -80,7 +72,27 @@ void init_palette(void){
 	set_palette(0,15,table_rgb);
 	return;
 }
+void init_screen(char *vram,short xsize,short ysize){
 	
+	
+	boxfill8(vram, xsize, COL8_008484,  0,         0,          xsize -  1, ysize - 29);
+	boxfill8(vram, xsize, COL8_C6C6C6,  0,         ysize - 28, xsize -  1, ysize - 28);
+	boxfill8(vram, xsize, COL8_FFFFFF,  0,         ysize - 27, xsize -  1, ysize - 27);
+	boxfill8(vram, xsize, COL8_C6C6C6,  0,         ysize - 26, xsize -  1, ysize -  1);
+
+	boxfill8(vram, xsize, COL8_FFFFFF,  3,         ysize - 24, 59,         ysize - 24);
+	boxfill8(vram, xsize, COL8_FFFFFF,  2,         ysize - 24,  2,         ysize -  4);
+	boxfill8(vram, xsize, COL8_848484,  3,         ysize -  4, 59,         ysize -  4);
+	boxfill8(vram, xsize, COL8_848484, 59,         ysize - 23, 59,         ysize -  5);
+	boxfill8(vram, xsize, COL8_000000,  2,         ysize -  3, 59,         ysize -  3);
+	boxfill8(vram, xsize, COL8_000000, 60,         ysize - 24, 60,         ysize -  3);
+
+	boxfill8(vram, xsize, COL8_848484, xsize - 47, ysize - 24, xsize -  4, ysize - 24);
+	boxfill8(vram, xsize, COL8_848484, xsize - 47, ysize - 23, xsize - 47, ysize -  4);
+	boxfill8(vram, xsize, COL8_FFFFFF, xsize - 47, ysize -  3, xsize -  4, ysize -  3);
+	boxfill8(vram, xsize, COL8_FFFFFF, xsize -  3, ysize - 24, xsize -  3, ysize -  3);
+
+}	
 	
 
 void set_palette(int start,int end,unsigned char *rgb){
