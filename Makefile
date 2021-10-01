@@ -1,35 +1,4 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@mnsfhxy 
-yourtion
-/
-30dayMakeOS
-Public
-200
-3.9k1.1k
-Code
-Issues
-5
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-30dayMakeOS/06_day/Makefile
-@yourtion
-yourtion 初始化PIC
-Latest commit 8205320 on 12 Sep 2014
- History
- 1 contributor
-93 lines (70 sloc)  1.98 KB
-   
-OBJS_BOOTPACK = bootpack.obj naskfunc.obj hankaku.obj graphic.obj dsctbl.obj \
+ OBJS_BOOTPACK = bootpack.obj naskfunc.obj hankaku.obj graphic.obj dsctbl.obj \
 		int.obj
 
 TOOLPATH = ../z_tools/
