@@ -2,8 +2,8 @@
 void HariMain(void){
 		BOOTINFO *bootinfo=(BOOTINFO *)ADR_BOOTINFO;
 		/*GDT IDT 中断*/
-		// init_gdtidt();
-		// init_pic();
+		init_gdtidt();
+		init_pic();
 		
 
 		/* 绘图 */
