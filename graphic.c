@@ -66,7 +66,7 @@ void boxfill(unsigned char *vram, int xsize,unsigned char c,int x0,int y0,int x1
 	}
 	return;
 }
-void printFont(char *vram,int xsize,int x,int y,char c,char *font){
+void print_font(char *vram,int xsize,int x,int y,char c,char *font){
 	int i,j;
 	unsigned char k[8]={
 		0x80,0x40,0x20,0x10,0x08,0x04,0x02,0x01	
@@ -81,21 +81,21 @@ void printFont(char *vram,int xsize,int x,int y,char c,char *font){
 		
 	return;
 }
-void printString(char *vram,int xsize,int x,int y,char c,unsigned char *s){
+void print_string(char *vram,int xsize,int x,int y,char c,unsigned char *s){
 	
 	extern char hankaku[4096];
 	 for(;*s!=0x00;s++){
-		printFont(vram,xsize,x,y,c,hankaku+(*s)*16);
+		print_font(vram,xsize,x,y,c,hankaku+(*s)*16);
 		x=x+8;
 	} 
-	/* printFont(vram,xsize,x,y,c,hankaku+(*s)*16);
-	printFont(vram,xsize,x+8,y,c,hankaku+(*s+1)*16);
-	printFont(vram,xsize,x+16,y,c,hankaku+(*s+2)*16);
-	printFont(vram,xsize,x+24,y,c,hankaku+(*s+3)*16); */
+	/* print_font(vram,xsize,x,y,c,hankaku+(*s)*16);
+	print_font(vram,xsize,x+8,y,c,hankaku+(*s+1)*16);
+	print_font(vram,xsize,x+16,y,c,hankaku+(*s+2)*16);
+	print_font(vram,xsize,x+24,y,c,hankaku+(*s+3)*16); */
 	return;
 	
 }	
-void drawPicture(char *vram,int vxsize,int pic_x_size,int pic_y_size,int pic_x,int pic_y,char *pic_addr,int bxsize){	
+void draw_picture(char *vram,int vxsize,int pic_x_size,int pic_y_size,int pic_x,int pic_y,char *pic_addr,int bxsize){	
 	int x,y;
 	for(y=0;y<pic_y_size;y++){
 		

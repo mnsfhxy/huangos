@@ -54,10 +54,10 @@ void asm_inthandler2c(void);
 void init_palette(void);
 void init_screen(char *vram,short xsize,short ysize);
 void set_palette(int start,int end,unsigned char *rgb);
-void printFont(char *vram,int xsize,int x,int y,char c,char *font);//绘制字体,8*16像素阵绘制  font是要绘制的矩阵
-void printString(char *vram,int xsize,int x,int y,char c,unsigned char *s);//输出字符串
+void print_font(char *vram,int xsize,int x,int y,char c,char *font);//绘制字体,8*16像素阵绘制  font是要绘制的矩阵
+void print_string(char *vram,int xsize,int x,int y,char c,unsigned char *s);//输出字符串
 void boxfill(unsigned char *vram, int xsize,unsigned char c,int x0,int y0,int x1,int y1);//矩形绘制
-void drawPicture(char *vram,int vxsize,int pic_x_size,int pic_y_size,int pic_x,int pic_y,char *pic_addr,int bxsize);
+void draw_picture(char *vram,int vxsize,int pic_x_size,int pic_y_size,int pic_x,int pic_y,char *pic_addr,int bxsize);
 void init_mouse_cursor(char *mouse, char bc);
 
 
@@ -88,20 +88,20 @@ void set_gatedesc(struct GATE_DESCRIPTOR *gd, int offset, int selector, int ar);
 
 
 
-// /* int.c */
-// void init_pic(void);
-// void inthandler21(int *esp);
-// void inthandler27(int *esp);
-// void inthandler2c(int *esp);
-// #define PIC0_ICW1		0x0020
-// #define PIC0_OCW2		0x0020
-// #define PIC0_IMR		0x0021
-// #define PIC0_ICW2		0x0021
-// #define PIC0_ICW3		0x0021
-// #define PIC0_ICW4		0x0021
-// #define PIC1_ICW1		0x00a0
-// #define PIC1_OCW2		0x00a0
-// #define PIC1_IMR		0x00a1
-// #define PIC1_ICW2		0x00a1
-// #define PIC1_ICW3		0x00a1
-// #define PIC1_ICW4		0x00a1
+/* int.c */
+void init_pic(void);
+void inthandler21(int *esp);
+void inthandler27(int *esp);
+void inthandler2c(int *esp);
+#define PIC0_ICW1		0x0020
+#define PIC0_OCW2		0x0020
+#define PIC0_IMR		0x0021
+#define PIC0_ICW2		0x0021
+#define PIC0_ICW3		0x0021
+#define PIC0_ICW4		0x0021
+#define PIC1_ICW1		0x00a0
+#define PIC1_OCW2		0x00a0
+#define PIC1_IMR		0x00a1
+#define PIC1_ICW2		0x00a1
+#define PIC1_ICW3		0x00a1
+#define PIC1_ICW4		0x00a1
