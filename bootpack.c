@@ -1,10 +1,10 @@
 #include "bootpack.h"
 void HariMain(void){
 		BOOTINFO *bootinfo=(BOOTINFO *)ADR_BOOTINFO;
-		/*GDT IDT 中断*/
+		/*GDT IDT 中断初始化*/
 		init_gdtidt();
 		init_pic();
-		
+		io_sti(); 
 
 		/* 绘图 */
 		init_palette();
@@ -19,8 +19,11 @@ void HariMain(void){
 		init_mouse_cursor(cursor,COL8_008484);
 		draw_picture(bootinfo->vram,bootinfo->screen_x,16,16,cursor_x,cursor_y,cursor,16);
 		
-		
-		
+		/* 中断 */
+		io_out8(PIC0_IMR, 0xf9); /* 开放PIC1和键盘中断(11111001) */
+		io_out8(PIC1_IMR, 0xef); /* 开放鼠标中断(11101111) */
+
+
 		/* halt */
 		for(;;)io_hlt();
 		return;
